@@ -1,19 +1,16 @@
 <?php
 error_reporting(E_ALL);
 
-include "includes/config.php";
+require_once('libs/Smarty.class.php');
 
-echo DOCTYPE;
-echo generateHeader("Testseite");
-echo "<body>\n";
+$smarty = new Smarty();
+$smarty->template_dir = 'data/templates';
+$smarty->compile_dir = 'data/templates_c';
+$smarty->cache_dir = 'data/cache';
+$smarty->config_dir = 'data/configs';
 
-@ mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASS) OR die(mysql_error());
-mysql_select_db(MYSQL_DATABASE) OR die(mysql_error());
+$smarty->assign("title", "Hallo");
+$smarty->assign("content", "Hallo, Welt!");
 
-$result = mysql_query("SELECT * FROM configuration WHERE name LIKE \"sitename\"") OR die(mysql_error());
-
-$sitename = mysql_fetch_row($result);
-echo "Sitename: " . ($sitename['1']) . "<br />\n";
-
-echo "</body>\n";
-echo "</html>\n";
+$smarty->display("one.tpl");
+?>
